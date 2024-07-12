@@ -39,7 +39,8 @@ public class login_servlet extends HttpServlet {
 
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
-                session.setAttribute("name", rs.getString("u_name"));
+                session.setAttribute("u_name", rs.getString("u_name"));
+                session.setAttribute("account_number", rs.getString("account_number"));
                 dispatcher = request.getRequestDispatcher("home.jsp");
             } else {
                 request.setAttribute("status", "failed");

@@ -145,7 +145,7 @@
 <hr/>
 <div class="transaction-section">
 <h2>Transaction</h2>
-<form action="process_transaction" method="post">
+<form action="transaction" method="post">
     <label>Enter Receiver's Phone Number</label><br/>
     <input type="text" name="receiver_phone_number"/><br/><br/>
     <label>Enter Amount</label><br/>
