@@ -12,7 +12,9 @@
 <%@ page import="javax.servlet.http.HttpServletRequest" %>
 <%@ page import="javax.servlet.http.HttpServletResponse" %>
 <%@ page import="javax.servlet.http.HttpSession" %>
-<%@ page import="java.sql.ResultSet " %>
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+
 
 <!DOCTYPE html>
 <html>
@@ -219,6 +221,7 @@
                             ResultSet rs = pst.executeQuery();
                             
                             while (rs.next()) {
+                            	
                 %>
                 <tr>
                     <td><%= rs.getString("transaction_id") %></td>
@@ -226,7 +229,8 @@
                     <td><%= rs.getString("transaction_type") %></td>
                     <td><%= rs.getString("status") %></td>
                     <td><%= rs.getString("receiver_phone_number") %></td>
-                    <td><%= rs.getDate("transaction_date") %></td>
+                    <td><%= rs.getTimestamp("transaction_date") %></td>
+
                 </tr>
                 <% 
                             }
