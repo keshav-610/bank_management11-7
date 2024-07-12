@@ -52,11 +52,7 @@ public class withdraw_servlet extends HttpServlet {
             pst_t.setString(6, "");
             pst_t.setTimestamp(7, currentTimestamp);
 
-            
-            
-            
-            
-            
+       
 
             int rowsUpdated_u = pst_u.executeUpdate();
             int rowsinserted_t=pst_t.executeUpdate();

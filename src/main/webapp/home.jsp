@@ -170,7 +170,7 @@
     
     <div class="withdraw-section">
         <h2>Withdraw Money</h2>
-        <form method="post">
+        <form action ="withdraw_money" method="post">
             <label>Enter the amount you want to withdraw</label><br/>
             <input type="text" name="w_money"/><br/><br/>
             <label>Enter your Account Password</label><br/>
@@ -198,7 +198,7 @@
     
     <div class="transaction-history" >
         <h2>Transaction History</h2>
-        <form method="post" action="login.jsp" >
+        <form method="post" >
             <table>
                 <tr>
                     <th>Transaction ID</th>

@@ -14,5 +14,14 @@
     <input type="password" name="admin_password"/><br><br>
     <input type="submit" value="Login"/>
 </form>
+<%
+    if (request.getAttribute("status") != null && request.getAttribute("status").equals("failed")) {
+%>
+    <p style="color:red;">Invalid username or password. Please try again.</p>
+<%
+    }
+%>
+
+
 </body>
 </html>
