@@ -7,67 +7,110 @@
 <title>Login Page</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap">
 <style>
-body {
-    background-color: #f0fff0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    height: 100vh;
-    margin: 0;
-    font-family: "Poppins", sans-serif;
-}
-h2 {
-    text-align: center;
-    font-weight: 700;
-    font-size: 5vh;
-    margin-bottom: 20px;
-}
-.container {
-    background-color: rgb(192, 228, 228);
-    border-radius: 10px;
-    box-shadow: 0 10px 20px rgb(141, 143, 144);
-    padding: 10px;
-    margin: 10px;
-    width: 400px;
-}
-label {
-    font-weight: 400;
-    font-size: 2.5vh;
-    display: block;
-    margin: 10px 0;
-}
-input[type="text"],
-input[type="password"] {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-}
-input[type="submit"] {
-    width: 100%;
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-}
-input[type="submit"]:hover {
-    background-color: #45a049;
-}
-p.error-message {
-    color: red;
-    font-size: 14px;
-    margin-top: 10px;
-}
+ 
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', sans-serif;
+        background-color: #f0f0f0;
+    }
+
+    .navbar {
+        width: 100%;
+        background-color: #fff;
+        padding: 10px 0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .navbar h2 {
+        margin: 0 20px;
+    }
+
+    .navbar h2 a {
+        color: rgb(114, 227, 167);
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .navbar h2 a:hover {
+        color: rgb(90, 180, 130);
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background-color: #fff;
+        padding: 20px 40px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 400px;
+        margin: 0 auto;
+    }
+
+    .container section {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .container section h2 {
+        text-align: center;
+        color: black;
+        margin-bottom: 20px;
+    }
+
+    .container form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .container label {
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    .container input[type="text"],
+    .container input[type="password"] {
+        padding: 10px;
+        border-radius:10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    .container input[type="submit"] {
+        background-color: rgb(114, 227, 167);
+        color: #fff;
+        border: none;
+        border-radius:5px;
+        padding: 10px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+
+    .container input[type="submit"]:hover {
+        background-color: rgb(90, 180, 130);
+    }
+
+    .container p {
+        font-weight: bold;
+        text-align: center;
+    }
 </style>
 </head>
 <body>
 <input type="hidden" id="status" value="<%=request.getAttribute("status")%>"/>
+<div class="navbar">
+        <h2><a href="customer.jsp">Signup</a></h2>
+        <h2>Login</h2>
+      </div>
+      
 <div class="container">
     <section>
         <h2>Get Account ID</h2>

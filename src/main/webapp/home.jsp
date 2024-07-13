@@ -15,46 +15,51 @@
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 
-
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>Admin Home</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f2f5;
-            margin: 0;
-            padding: 20px;
-        }
-        .header {
-            display: flex;
-            justify-content: space-between;
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            margin-top: 50px;
-        }
-        .side-header {
-            display: flex;
-            justify-content: space-evenly;
-            align-items: center;
-        }
-        .logout-button {
-            margin: 10px;
-            padding: 10px 20px;
-            background-color: #f44336;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .logout-button:hover {
-            background-color: #cc0000;
-        }
+         body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f2f5;
+        margin: 0;
+        padding: 20px;
+    }
+    .header {
+        display: flex;
+        justify-content: space-between;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        margin-top: 50px;
+        align-items: center;
+    }
+    .side-header {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center; 
+        height: auto;
+
+    }
+    .logout-button {
+    background-color: red;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none; 
+    display: inline-block; 
+}
+
+.logout-button:hover {
+    background-color: darkred; 
+}
+    
+    
         .balance-section, .deposit-section, .withdraw-section, .transaction-section, .transaction-history {
             margin-top: 20px;
             padding: 20px;
@@ -67,6 +72,9 @@
         }
         form {
             margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         label {
             font-weight: bold;
@@ -134,7 +142,7 @@
         %>
         <div class="side-header">
             <p>Time: <span id="current-time"></span></p>
-            <button class="logout-button">Logout</button>
+            <a class="logout-button" href="login.jsp">Logout</a>
         </div>
     </div>
     
@@ -166,7 +174,6 @@
         </form>
     </div>
     
-    <hr/>
     
     <div class="withdraw-section">
         <h2>Withdraw Money</h2>
@@ -178,8 +185,7 @@
             <input type="submit" value="Withdraw"/>
         </form>
     </div>
-    
-    <hr/>
+
     
     <div class="transaction-section">
         <h2>Transaction</h2>
@@ -196,9 +202,9 @@
     
     <hr>
     
-    <div class="transaction-history" >
+    <div class="transaction-history">
         <h2>Transaction History</h2>
-        <form method="post" >
+        <form method="post">
             <table>
                 <tr>
                     <th>Transaction ID</th>
