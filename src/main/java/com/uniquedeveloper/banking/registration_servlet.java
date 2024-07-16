@@ -40,17 +40,13 @@ public class registration_servlet extends HttpServlet {
         PreparedStatement pst = null;
 
         try {
-            // Load the MySQL JDBC driver
             Class.forName("com.mysql.cj.jdbc.Driver");
 
-            // Establish a connection to the database
             con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/bank_management", "root", "keshav610");
 
-            // Prepare the SQL statement
             String sql = "INSERT INTO user_details (u_name, address, phone_number, email, account_type, initial_balance, date_of_birth, proof, password, account_number, account_password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             pst = con1.prepareStatement(sql);
 
-            // Set the parameters for the SQL statement
             pst.setString(1, u_name);
             pst.setString(2, address);
             pst.setString(3, phone_number);
@@ -63,7 +59,6 @@ public class registration_servlet extends HttpServlet {
             pst.setString(10, account_number);
             pst.setString(11, account_password);
 
-            // Execute the SQL statement
             int rowcount = pst.executeUpdate();
             dispatcher = request.getRequestDispatcher("login.jsp");
             if (rowcount > 0) {

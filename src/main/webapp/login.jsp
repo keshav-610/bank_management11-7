@@ -126,7 +126,6 @@
 
             <input type="submit" value="Get"/>
         </form>
-        <%-- Display retrieved account details --%>
         <% 
             String accountNumber = (String) request.getAttribute("account_number");
             String accountPassword = (String) request.getAttribute("account_password");
@@ -160,7 +159,6 @@
 
             <input type="submit" value="Login" name="signin"/>
         </form>
-        <%-- Display login error message --%>
         <% 
             String loginError = (String) request.getAttribute("loginError");
             if (loginError != null) {
