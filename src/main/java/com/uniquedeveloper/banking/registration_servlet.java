@@ -73,7 +73,6 @@ public class registration_servlet extends HttpServlet {
             }
             dispatcher.forward(request, response);
         } catch (Exception e) {
-            // Log the exception
             e.printStackTrace();
             request.setAttribute("status", "exception: " + e.getMessage());
             dispatcher = request.getRequestDispatcher("customer.jsp");
