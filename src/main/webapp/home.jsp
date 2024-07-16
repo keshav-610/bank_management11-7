@@ -21,45 +21,41 @@
     <meta charset="UTF-8">
     <title>Admin Home</title>
     <style>
-         body {
-        font-family: Arial, sans-serif;
-        background-color: #f0f2f5;
-        margin: 0;
-        padding: 20px;
-    }
-    .header {
-        display: flex;
-        justify-content: space-between;
-        background-color: #ffffff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        text-align: center;
-        margin-top: 50px;
-        align-items: center;
-    }
-    .side-header {
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center; 
-        height: auto;
-
-    }
-    .logout-button {
-    background-color: red;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    text-decoration: none; 
-    display: inline-block; 
-}
-
-.logout-button:hover {
-    background-color: darkred; 
-}
-    
-    
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-top: 50px;
+            align-items: center;
+        }
+        .side-header {
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center; 
+            height: auto;
+        }
+        .logout-button {
+            background-color: red;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none; 
+            display: inline-block; 
+        }
+        .logout-button:hover {
+            background-color: darkred; 
+        }
         .balance-section, .deposit-section, .withdraw-section, .transaction-section, .transaction-history {
             margin-top: 20px;
             padding: 20px;
@@ -89,13 +85,13 @@
             width: 300px;
         }
         input[type="submit"] {
-            background-color: #4CAF50;
+            background-color: #000000;
             color: white;
             border: none;
             cursor: pointer;
         }
         input[type="submit"]:hover {
-            background-color: #45a049;
+            background-color:  #6f7470;
         }
         .error-message {
             color: red;
@@ -114,8 +110,59 @@
             background-color: #f2f2f2;
             color: #333;
         }
+        .form-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .form {
+            width: 48%;
+        }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
     <script>
+        function generatePDF() {
+            var { jsPDF } = window.jspdf;
+            var doc = new jsPDF();
+
+            var userName = "<%= session.getAttribute("u_name") %>";
+            var columns = ["Transaction ID", "Transaction Amount", "Transaction Type", "Status", "Receiver's Phone Number", "Transaction Date"];
+            var rows = [];
+
+            <% 
+                String user_name = (String) session.getAttribute("u_name");
+                try {
+                    Class.forName("com.mysql.cj.jdbc.Driver");
+                    Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bank_management", "root", "keshav610");
+                    PreparedStatement pst = con.prepareStatement("SELECT transaction_id, user_name, amount, transaction_type, status, receiver_phone_number, transaction_date FROM transactions WHERE user_name=?");
+                    pst.setString(1, user_name);
+                    
+                    ResultSet rs = pst.executeQuery();
+                    
+                    while (rs.next()) {
+            %>
+            rows.push(["<%= rs.getString("transaction_id") %>", "<%= rs.getLong("amount") %>", "<%= rs.getString("transaction_type") %>", "<%= rs.getString("status") %>", "<%= rs.getString("receiver_phone_number") %>", "<%= rs.getTimestamp("transaction_date") %>"]);
+            <% 
+                    }
+                    
+                    rs.close();
+                    pst.close();
+                    con.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            %>
+
+            doc.text("Account Holder: " + userName, 14, 16);
+            doc.autoTable({
+                head: [columns],
+                body: rows,
+                startY: 20,
+            });
+
+            doc.save("Transaction_History.pdf");
+        }
+
         function updateTime() {
             var now = new Date();
             var formattedTime = now.getFullYear() + '-' + 
@@ -146,66 +193,64 @@
         </div>
     </div>
     
-    <div class="balance-section">
-        <h2>Balance Check</h2>
-        <form action="balance" method="post">
-            <label>Check your Balance</label>
-            <input type="password" placeholder="Enter your Account Password" name="account_password"/>
-            <input type="submit" value="View Balance"/>
-        </form>
-        <%
-            String initial_balance = (String) request.getAttribute("initial_balance");
-            if (initial_balance != null) {
-                out.println("<p>Your balance is ₹" + initial_balance + "</p>");
-            }
-        %>
-    </div>
-    
-    <hr>
-    
-    <div class="deposit-section">
-        <h2>Deposit Money</h2>
-        <form action="deposit_money" method="post">
-            <label>Enter the amount you want to deposit</label><br/>
-            <input type="text" name="d_money"/><br/><br/>
-            <label>Enter your Account Password</label><br/>
-            <input type="password" name="account_password"/><br/><br/>
-            <input type="submit" value="Deposit"/>
-        </form>
-    </div>
-    
-    
-    <div class="withdraw-section">
-        <h2>Withdraw Money</h2>
-        <form action ="withdraw_money" method="post">
-            <label>Enter the amount you want to withdraw</label><br/>
-            <input type="text" name="w_money"/><br/><br/>
-            <label>Enter your Account Password</label><br/>
-            <input type="password" name="account_password"/><br/><br/>
-            <input type="submit" value="Withdraw"/>
-        </form>
+    <div class="form-container">
+        <div class="form balance-section">
+            <h2>Balance Check</h2>
+            <form action="balance" method="post">
+                <label>Check your Balance</label>
+                <input type="password" placeholder="Enter your Account Password" name="account_password"/>
+                <input type="submit" value="View Balance"/>
+            </form>
+            <%
+                String initial_balance = (String) request.getAttribute("initial_balance");
+                if (initial_balance != null) {
+                    out.println("<p style = text-align:center;font-size:20px;font-weight:bold>Your balance is ₹" + initial_balance + "</p>");
+                }
+            %>
+        </div>
+        
+        <div class="form deposit-section">
+            <h2>Deposit Money</h2>
+            <form action="deposit_money" method="post">
+                <label>Enter the amount you want to deposit</label><br/>
+                <input type="text" name="d_money"/><br/><br/>
+                <label>Enter your Account Password</label><br/>
+                <input type="password" name="account_password"/><br/><br/>
+                <input type="submit" value="Deposit"/>
+            </form>
+        </div>
     </div>
 
-    
-    <div class="transaction-section">
-        <h2>Transaction</h2>
-        <form action="transaction" method="post">
-            <label>Enter Receiver's Phone Number</label><br/>
-            <input type="text" name="receiver_phone_number"/><br/><br/>
-            <label>Enter Amount</label><br/>
-            <input type="text" name="t_amount"/><br/><br/>
-            <label>Enter Your Account Password</label><br/>
-            <input type="password" name="account_password"/><br/><br/>
-            <input type="submit" value="Make Transaction"/>
-        </form>
+    <div class="form-container">
+        <div class="form withdraw-section">
+            <h2>Withdraw Money</h2>
+            <form action ="withdraw_money" method="post">
+                <label>Enter the amount you want to withdraw</label><br/>
+                <input type="text" name="w_money"/><br/><br/>
+                <label>Enter your Account Password</label><br/>
+                <input type="password" name="account_password"/><br/><br/>
+                <input type="submit" value="Withdraw"/>
+            </form>
+        </div>
+        
+        <div class="form transaction-section">
+            <h2>Transaction</h2>
+            <form action="transaction" method="post">
+                <label>Enter Receiver's Phone Number</label><br/>
+                <input type="text" name="receiver_phone_number"/><br/><br/>
+                <label>Enter the Amount</label><br/>
+                <input type="text" name="t_money"/><br/><br/>
+                <label>Enter your Account Password</label><br/>
+                <input type="password" name="account_password"/><br/><br/>
+                <input type="submit" value="Send"/>
+            </form>
+        </div>
     </div>
-    
-    <hr>
     
     <div class="transaction-history">
         <h2>Transaction History</h2>
-        <form method="post">
-            <table>
+        <table>
+            <thead>
                 <tr>
                     <th>Transaction ID</th>
                     <th>Transaction Amount</th>
@@ -214,20 +259,17 @@
                     <th>Receiver's Phone Number</th>
                     <th>Transaction Date</th>
                 </tr>
-                <% 
-                    String user_name = (String) session.getAttribute("u_name");
-                    
-                    
-                        try {
-                            Class.forName("com.mysql.cj.jdbc.Driver");
-                            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bank_management", "root", "keshav610");
-                            PreparedStatement pst = con.prepareStatement("SELECT transaction_id, user_name, amount, transaction_type, status, receiver_phone_number, transaction_date FROM transactions WHERE user_name=?");
-                            pst.setString(1, user_name);
-                            
-                            ResultSet rs = pst.executeQuery();
-                            
-                            while (rs.next()) {
-                            	
+            </thead>
+            <tbody>
+                <%
+                    try {
+                        Class.forName("com.mysql.cj.jdbc.Driver");
+                        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bank_management", "root", "keshav610");
+                        PreparedStatement pst = con.prepareStatement("SELECT transaction_id, user_name, amount, transaction_type, status, receiver_phone_number, transaction_date FROM transactions WHERE user_name=?");
+                        pst.setString(1, user_name);
+                        ResultSet rs = pst.executeQuery();
+                        
+                        while (rs.next()) {
                 %>
                 <tr>
                     <td><%= rs.getString("transaction_id") %></td>
@@ -236,21 +278,21 @@
                     <td><%= rs.getString("status") %></td>
                     <td><%= rs.getString("receiver_phone_number") %></td>
                     <td><%= rs.getTimestamp("transaction_date") %></td>
-
                 </tr>
-                <% 
-                            }
-                            
-                            rs.close();
-                            pst.close();
-                            con.close();
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                <%
                         }
-                    
+                        
+                        rs.close();
+                        pst.close();
+                        con.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 %>
-            </table>
-        </form>
+            </tbody>
+        </table>
     </div>
+    
+    <button onclick="generatePDF()">Generate PDF</button>
 </body>
 </html>
