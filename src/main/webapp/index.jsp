@@ -59,8 +59,8 @@ h4{
 button{
     background-color: black;
     border: 0 solid transparent;
-    width: 220px;
-    height: 70px;
+    width: 190px;
+    height: 60px;
     border-radius: 10px;
     margin: 20px;
     transition: 0.2s ease-out;
