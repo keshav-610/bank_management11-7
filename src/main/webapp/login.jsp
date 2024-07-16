@@ -1,21 +1,24 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login Page</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap">
-<style>
- 
-    body {
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Page</title>
+    <link rel="icon" type="image/x-icon" href="img/logo.png" />
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
+      body {
         margin: 0;
         padding: 0;
-        font-family: 'Poppins', sans-serif;
+        font-family: "DM Sans", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 500;
+        font-style: normal;
         background-color: #f0f0f0;
-    }
+      }
 
-    .navbar {
+      .navbar {
         width: 100%;
         background-color: #fff;
         padding: 10px 0;
@@ -23,23 +26,23 @@
         display: flex;
         justify-content: center;
         margin-bottom: 20px;
-    }
+      }
 
-    .navbar h2 {
+      .navbar h2 {
         margin: 0 20px;
-    }
+      }
 
-    .navbar h2 a {
-        color: rgb(114, 227, 167);
+      .navbar h2 a {
+        color:rgb(176, 186, 181);
         text-decoration: none;
         transition: color 0.3s ease;
-    }
+      }
 
-    .navbar h2 a:hover {
-        color: rgb(90, 180, 130);
-    }
+      .navbar h2 a:hover {
+        color: rgb(13, 130, 234);
+      }
 
-    .container {
+      .container {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -50,78 +53,78 @@
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         width: 400px;
         margin: 0 auto;
-    }
+      }
 
-    .container section {
+      .container section {
         width: 100%;
         margin-bottom: 20px;
-    }
+      }
 
-    .container section h2 {
+      .container section h2 {
         text-align: center;
         color: black;
         margin-bottom: 20px;
-    }
+      }
 
-    .container form {
+      .container form {
         display: flex;
         flex-direction: column;
-    }
+      }
 
-    .container label {
+      .container label {
         margin-bottom: 5px;
         font-weight: bold;
-    }
+      }
 
-    .container input[type="text"],
-    .container input[type="password"] {
+      .container input[type="text"],
+      .container input[type="password"] {
         padding: 10px;
-        border-radius:10px;
+        border-radius: 10px;
         margin-bottom: 15px;
         border: 1px solid #ccc;
         border-radius: 5px;
         box-sizing: border-box;
-    }
+      }
 
-    .container input[type="submit"] {
-        background-color: rgb(114, 227, 167);
+      .container input[type="submit"] {
+        background-color: rgb(0, 0, 0);
         color: #fff;
         border: none;
-        border-radius:5px;
+        border-radius: 5px;
         padding: 10px;
         cursor: pointer;
         font-weight: bold;
         transition: background-color 0.3s ease;
-    }
+      }
 
-    .container input[type="submit"]:hover {
-        background-color: rgb(90, 180, 130);
-    }
+      .container input[type="submit"]:hover {
+        background-color: rgb(66, 70, 68);
+      }
 
-    .container p {
+      .container p {
         font-weight: bold;
         text-align: center;
-    }
-</style>
-</head>
-<body>
-<input type="hidden" id="status" value="<%=request.getAttribute("status")%>"/>
-<div class="navbar">
-        <h2><a href="customer.jsp">Signup</a></h2>
-        <h2>Login</h2>
-      </div>
-      
-<div class="container">
-    <section>
+      }
+    </style>
+  </head>
+  <body>
+  <input type="hidden" id="status" value="<%=request.getAttribute("status")%>"/>
+    <div class="navbar">
+      <h2><a href="customer.jsp">Signup</a></h2>
+      <h2>Login</h2>
+    </div>
+
+    <div class="container">
+      <section>
         <h2>Get Account ID</h2>
         <form action="get_account" method="post">
-            <label for="phone_number">Phone Number</label>
-            <input type="text" id="phone_number" name="phone_number" required/>
-            
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" required/>
-            
-            <input type="submit" value="Get"/>
+          <label for="phone_number">Phone Number</label>
+          <input type="text" id="phone_number" name="phone_number" required />
+
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required />
+
+          <input type="submit" value="Get" />
         </form>
         <%-- Display retrieved account details --%>
         <%
@@ -132,20 +135,32 @@
             out.println("<p>Account Password: " + accountPassword + "</p>");
         }
         %>
-    </section>
+      </section>
 
-    <section>
+      <section>
         <h2>Account Login</h2>
         <form action="login" method="post">
-            <label for="account_number">Enter Account Number</label>
-            <input type="text" id="account_number" name="account_number" placeholder="Enter your Account Number" required/>
-            
-            <label for="account_password">Enter your Account Password</label>
-            <input type="password" id="account_password" name="account_password" placeholder="Enter your Account password" required/>
-            
-            <input type="submit" value="Login" name="signin"/>
+          <label for="account_number">Enter Account Number</label>
+          <input
+            type="text"
+            id="account_number"
+            name="account_number"
+            placeholder="Enter your Account Number"
+            required
+          />
+
+          <label for="account_password">Enter your Account Password</label>
+          <input
+            type="password"
+            id="account_password"
+            name="account_password"
+            placeholder="Enter your Account password"
+            required
+          />
+
+          <input type="submit" value="Login" name="signin" />
         </form>
-    </section>
-</div>
-</body>
+      </section>
+    </div>
+  </body>
 </html>
