@@ -19,7 +19,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Admin Home</title>
+    <title>CBI - Dashboard</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -117,6 +117,21 @@
         .form {
             width: 48%;
         }
+        button{
+        	width:300px;
+        	padding:10px;
+        	background-color: #000000;
+            color: white;
+            border-radius:5px;
+            border: none;
+            cursor: pointer;
+        }
+        .transaction-history{
+        	display:flex;
+        	align-items:center;
+        	justify-content:center;
+        	flex-direction:column;
+        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
@@ -160,7 +175,7 @@
                 startY: 20,
             });
 
-            doc.save("Transaction_History.pdf");
+            doc.save(userName +" Transaction_History.pdf");
         }
 
         function updateTime() {
@@ -290,9 +305,10 @@
                     }
                 %>
             </tbody>
-        </table>
+        </table><br>
+        <button onclick="generatePDF()">Generate PDF</button>
     </div>
     
-    <button onclick="generatePDF()">Generate PDF</button>
+    
 </body>
 </html>

@@ -57,10 +57,8 @@ public class deposit_servlet extends HttpServlet {
            
             
             if (rowsupdated_s > 0 && rowsinserted_t > 0) {
-                // Update and insert successful
                 response.sendRedirect("home.jsp");
             } else {
-                // No rows updated, handle as per your application's logic
                 request.setAttribute("status", "failed");
                 request.getRequestDispatcher("home.jsp").forward(request, response);
             }
