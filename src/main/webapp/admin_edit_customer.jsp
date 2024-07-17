@@ -25,9 +25,9 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 80%; /* Adjusted width */
+            width: 80%; 
             margin: 0 auto;
-            max-width: 600px; /* Maximum width to ensure it doesn't get too wide */
+            max-width: 600px; 
         }
         form label {
             display: block;

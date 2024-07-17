@@ -27,9 +27,9 @@
             margin: 0;
             padding: 20px;
             display: flex;
-            flex-direction: column; /* Arrange content in a column */
-            align-items: center; /* Center horizontally */
-            min-height: 100vh; /* Minimum full viewport height */
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh; 
         }
         
         .header {
@@ -62,10 +62,10 @@
         .container select,
         .container input[type="submit"] {
             padding: 10px;
-            margin-bottom: 15px; /* Adjusted margin for better spacing */
+            margin-bottom: 15px; 
             border: 1px solid #ccc;
             border-radius: 5px;
-            width: calc(100% - 22px); /* Adjust width to account for padding and border */
+            width: calc(100% - 22px); 
         }
         
         .container input[type="submit"] {
@@ -108,13 +108,13 @@
         
         .edit-delete {
     display: flex;
-    justify-content: space-around; /* Adjust spacing between buttons */
+    justify-content: space-around;
     margin-top: 20px;
 }
 
 .edit-delete .edit,
 .edit-delete .delete {
-    text-align: center; /* Center align text */
+    text-align: center; 
 }
 
 .edit-delete button {
@@ -124,22 +124,22 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    text-decoration: none; /* Remove underline from anchor */
+    text-decoration: none; 
     display: inline-block;
-    transition: background-color 0.3s ease; /* Smooth transition */
+    transition: background-color 0.3s ease;
 }
 
 .edit-delete button:hover {
-    background-color: #45a049; /* Darker green on hover */
+    background-color: #45a049; 
 }
 
 .edit-delete button a {
     color: white;
-    text-decoration: none; /* Remove underline from anchor */
+    text-decoration: none; 
 }
 
 .edit-delete button:hover a {
-    color: white; /* Maintain white color on anchor hover */
+    color: white;
 }
         
         
