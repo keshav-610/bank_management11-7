@@ -36,6 +36,7 @@ public class balance_check extends HttpServlet {
             if (rs.next()) {
                 String initial_balance = rs.getString("initial_balance");
                 request.setAttribute("initial_balance", initial_balance);
+                request.setAttribute("status", "success");
                 dispatcher = request.getRequestDispatcher("home.jsp");
             } else {
                 request.setAttribute("status", "failed");

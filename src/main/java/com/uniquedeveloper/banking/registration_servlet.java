@@ -6,17 +6,14 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Random;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.mindrot.jbcrypt.BCrypt;
 
-/**
- * Servlet implementation class registration_servlet
- */
 @WebServlet("/register")
 public class registration_servlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -27,21 +24,37 @@ public class registration_servlet extends HttpServlet {
         String phone_number = request.getParameter("phone");
         String email = request.getParameter("email");
         String account_type = request.getParameter("account_type");
-        double initial_balance = Double.parseDouble(request.getParameter("iamount"));
+        double initial_balance = 0.0;
         String date_of_birth = request.getParameter("dob");
         String proof = request.getParameter("id_proof");
         String password = request.getParameter("password");
-
-        String account_number = generate_account_number();
-        String account_password = generate_account_password();
+        
+        String account_number = generateAccountNumber();
+        String account_password = generateAccountPassword();
 
         RequestDispatcher dispatcher = null;
         Connection con1 = null;
         PreparedStatement pst = null;
 
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            initial_balance = Double.parseDouble(request.getParameter("iamount"));
+            if (initial_balance < 1000) {
+                request.setAttribute("status", "invalid_input");
+                request.setAttribute("message", "Initial Amount must be greater than ₹ 1000");
+                dispatcher = request.getRequestDispatcher("customer.jsp");
+                dispatcher.forward(request, response);
+                return;
+            }
+        } catch (NumberFormatException e) {
+            request.setAttribute("status", "invalid_input");
+            request.setAttribute("message", "Initial amount must be a valid number.");
+            dispatcher = request.getRequestDispatcher("customer.jsp");
+            dispatcher.forward(request, response);
+            return;
+        }
 
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
             con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/bank_management", "root", "keshav610");
 
             String sql = "INSERT INTO user_details (u_name, address, phone_number, email, account_type, initial_balance, date_of_birth, proof, password, account_number, account_password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -55,7 +68,7 @@ public class registration_servlet extends HttpServlet {
             pst.setDouble(6, initial_balance);
             pst.setString(7, date_of_birth);
             pst.setString(8, proof);
-            pst.setString(9, password);
+            pst.setString(9, password); // This password is already hashed
             pst.setString(10, account_number);
             pst.setString(11, account_password);
 
@@ -90,11 +103,11 @@ public class registration_servlet extends HttpServlet {
         }
     }
 
-    private String generate_account_number() {
+    private String generateAccountNumber() {
         return "user" + new Random().nextInt(999999999);
     }
 
-    private String generate_account_password() {
+    private String generateAccountPassword() {
         return String.valueOf(new Random().nextInt(999999));
     }
 }

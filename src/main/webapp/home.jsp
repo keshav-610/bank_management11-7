@@ -52,6 +52,7 @@
             border-radius: 5px;
             text-decoration: none; 
             display: inline-block; 
+            margin-left:20px;
         }
         .logout-button:hover {
             background-color: darkred; 
@@ -95,6 +96,7 @@
         }
         .error-message {
             color: red;
+            text-align:center;
         }
         table {
             width: 100%;
@@ -204,7 +206,7 @@
         %>
         <div class="side-header">
             <p>Time: <span id="current-time"></span></p>
-            <a class="logout-button" href="login.jsp">Logout</a>
+            <a class="logout-button" href="logout">Logout</a>
         </div>
     </div>
     
@@ -218,8 +220,11 @@
             </form>
             <%
                 String initial_balance = (String) request.getAttribute("initial_balance");
-                if (initial_balance != null) {
-                    out.println("<p style = text-align:center;font-size:20px;font-weight:bold>Your balance is ₹" + initial_balance + "</p>");
+            	String status=(String) request.getAttribute("status");
+            	if ("success".equals(status)) {
+                    out.println("<p style='text-align:center;font-size:20px;font-weight:bold;'>Your balance is ₹" + initial_balance + "</p>");
+                } else if ("failed".equals(status)) {
+                    out.println("<p style='text-align:center;color:red;font-size:20px;font-weight:bold;'>Invalid password, please try again.</p>");
                 }
             %>
         </div>
@@ -233,6 +238,12 @@
                 <input type="password" name="account_password"/><br/><br/>
                 <input type="submit" value="Deposit"/>
             </form>
+            <% 
+                String depositErrorMessage = (String) request.getAttribute("depositErrorMessage");
+                if (depositErrorMessage != null) {
+            %>
+            <p class="error-message"><%= depositErrorMessage %></p>
+            <% } %>
         </div>
     </div>
 

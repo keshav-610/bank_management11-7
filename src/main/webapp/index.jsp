@@ -56,24 +56,33 @@ h4{
     flex-direction: column;
 
 }
-button{
-    background-color: black;
-    border: 0 solid transparent;
-    width: 190px;
-    height: 60px;
-    border-radius: 10px;
-    margin: 20px;
-    transition: 0.2s ease-out;
-}
-a{
-    text-decoration: none;
-    color: aliceblue;
-    font-size: 20px;
+a{	
+	display: flex; 
+    justify-content: center;
+    align-items: center; 
+    font-family: "DM Sans", sans-serif;
+    font-optical-sizing: auto;
     font-weight: 600;
+    font-style: normal;
+    text-decoration: none;
+    background-color: black;
+    color: white;
+    width: 160px;
+    height: 55px;
+    text-align: center; 
+    margin-bottom: 20px;
+    font-size: 20px;
+    transition: 0.2s ease-in;
+    border-radius: 10px;
+    border:2px solid white;
 }
-button:hover{
+a:hover{
     text-align: center;
-    background-color: rgb(48, 46, 46);
+    border:2px solid black;
+    border-radius:10px;
+    background-color: white;
+    color:black;
+    box-shadow: 0px 5px 0px 0px #000000;
 }
 </style>
 <body>
@@ -88,8 +97,8 @@ button:hover{
                 <h4>For the people's future</h4>
             </div>
             <div class="buttons">
-                <button><a href="customer.jsp">Customer</a></button>
-            <button><a href="admin.jsp">Admin</a></button>
+             <a href="customer.jsp">Customer</a>
+            <a href="admin.jsp">Admin</a>
             </div>
         </div>
         </div>

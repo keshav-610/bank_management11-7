@@ -8,7 +8,6 @@
 
     <style>
         @import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
-
         body {
             margin: 0;
             padding: 0;
@@ -17,15 +16,18 @@
             font-weight: 500;
             font-style: normal;
             background-color: #f0f0f0;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            flex-direction:column;
         }
-
         .navbar {
             width: 100%;
             background-color: #fff;
             padding: 10px 0;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             display: flex;
-            justify-content: center;
+            justify-content: space-evenly;
             margin-bottom: 20px;
         }
 
@@ -41,6 +43,7 @@
 
         .navbar h2 a:hover {
             color: rgb(13, 130, 234);
+            
         }
 
         .container {
@@ -129,11 +132,16 @@
         <% 
             String accountNumber = (String) request.getAttribute("account_number");
             String accountPassword = (String) request.getAttribute("account_password");
-            if (accountNumber != null && accountPassword != null) {
-        %>
-            <p>Account Number: <%= accountNumber %></p>
-            <p>Account Password: <%= accountPassword %></p>
-        <% } %>
+            String status=(String) request.getAttribute("status");
+            if (accountNumber != null && accountPassword != null && "success".equals(status)) {
+            	out.println("<p>Account Number: "+accountNumber+"</p>");
+            	out.println("<p>Account Password: "+accountPassword+"</p>");            
+            }
+            else if("failed".equals(status)){
+            	out.println("<p style='text-align:center;color:red;font-weight:bold;'>Invalid input, please try again.</p>");
+            }         	
+            	%>
+        
     </section>
 
     <section>

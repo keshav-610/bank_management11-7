@@ -39,6 +39,7 @@ public class get_account_details extends HttpServlet {
                 String account_password = rs.getString("account_password");
                 request.setAttribute("account_number", account_number);
                 request.setAttribute("account_password", account_password);
+                request.setAttribute("status", "success");
                 dispatcher = request.getRequestDispatcher("login.jsp");
             } else {
                 request.setAttribute("status", "failed");
