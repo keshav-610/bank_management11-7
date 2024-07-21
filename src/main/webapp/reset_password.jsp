@@ -64,15 +64,15 @@
         <form action="ResetPasswordServlet" method="post">
             <div class="form-group">
                 <label for="account_number">Enter your Account Number</label>
-                <input type="text" name="account_number" required>
+                <input type="text" name="account_number" autocomplete="off" required>
             </div>
             <div class="form-group">
                 <label for="newPassword">New Password:</label>
-                <input type="password" name="newPassword" required>
+                <input type="password" name="newPassword" autocomplete="off"required>
             </div>
             <div class="form-group">
                 <label for="confirmPassword">Confirm Password:</label>
-                <input type="password" name="confirmPassword" required>
+                <input type="password" name="confirmPassword" autocomplete="off" required>
             </div>
             <button type="submit">Reset Password</button>
         </form>

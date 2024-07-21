@@ -73,7 +73,7 @@
 <h2>Edit an Account</h2>
 <form method="post" action="">
     <label>Enter the Account Number:</label>
-    <input type="text" name="user_acc_no" required/>
+    <input type="text" name="user_acc_no" autocomplete = "off" required/>
     <input type="submit" value="Get"/>
 </form>
 <%
@@ -112,15 +112,15 @@ if (user_acc_no != null && !user_acc_no.isEmpty()) {
             <form action="admin_edit_user" method="post">
                 <input type="hidden" name="user_acc_no" value="<%= user_acc_no %>"/>
                 <label>Name</label>
-                <input type="text" name="new_name" value="<%= rs.getString("u_name") %>" required/><br><br>
+                <input type="text" name="new_name" value="<%= rs.getString("u_name") %>" autocomplete="off" required/><br><br>
                 <label>Address</label>
-                <input type="text" name="new_address" value="<%= rs.getString("address") %>" required/><br><br>
+                <input type="text" name="new_address" value="<%= rs.getString("address") %>"  autocomplete="off" required/><br><br>
                 <label>Phone Number</label>
-                <input type="text" name="new_ph_no" value="<%= rs.getString("phone_number") %>" required/><br><br>
+                <input type="text" name="new_ph_no" value="<%= rs.getString("phone_number") %>"  autocomplete="off" required/><br><br>
                 <label>Email</label>
-                <input type="email" name="new_email" value="<%= rs.getString("email") %>" required/><br><br>
+                <input type="email" name="new_email" value="<%= rs.getString("email") %>" autocomplete="off" required/><br><br>
                 <label>Date of Birth</label>
-                <input type="date" name="new_dob" value="<%= rs.getDate("date_of_birth") %>" required/><br><br>
+                <input type="date" name="new_dob" value="<%= rs.getDate("date_of_birth") %>" autocomplete="off" required/><br><br>
                 <input type="submit" value="Update">
             </form>
             <%

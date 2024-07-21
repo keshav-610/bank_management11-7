@@ -235,7 +235,7 @@
             <h2>Balance Check</h2>
             <form action="balance" method="post">
                 <label>Check your Balance</label>
-                <input type="password" placeholder="Enter your Account Password" name="account_password"/>
+                <input type="password" placeholder="Enter your Account Password" autocomplete="off" name="account_password"/>
                 <input type="submit" value="View Balance"/>
             </form>
             <%
@@ -253,9 +253,9 @@
             <h2>Deposit Money</h2>
             <form action="deposit_money" method="post">
                 <label>Enter the amount you want to deposit</label><br/>
-                <input type="text" name="d_money"/><br/><br/>
+                <input type="text" name="d_money" autocomplete="off"/><br/><br/>
                 <label>Enter your Account Password</label><br/>
-                <input type="password" name="account_password"/><br/><br/>
+                <input type="password" name="account_password" autocomplete="off"/><br/><br/>
                 <input type="submit" value="Deposit"/>
             </form>
             <% 
@@ -272,9 +272,9 @@
             <h2>Withdraw Money</h2>
             <form action ="withdraw_money" method="post">
                 <label>Enter the amount you want to withdraw</label><br/>
-                <input type="text" name="w_money"/><br/><br/>
+                <input type="text" name="w_money" autocomplete="off"/><br/><br/>
                 <label>Enter your Account Password</label><br/>
-                <input type="password" name="account_password"/><br/><br/>
+                <input type="password" name="account_password" autocomplete="off"/><br/><br/>
                 <input type="submit" value="Withdraw"/>
             </form>
         </div>
@@ -283,11 +283,11 @@
             <h2>Transaction</h2>
             <form action="transaction" method="post">
                 <label>Enter Receiver's Phone Number</label><br/>
-                <input type="text" name="receiver_phone_number"/><br/><br/>
+                <input type="text" name="receiver_phone_number" autocomplete="off"/><br/><br/>
                 <label>Enter the Amount</label><br/>
-                <input type="text" name="t_money"/><br/><br/>
+                <input type="text" name="t_money" autocomplete="off"/><br/><br/>
                 <label>Enter your Account Password</label><br/>
-                <input type="password" name="account_password"/><br/><br/>
+                <input type="password" name="account_password" autocomplete="off"/><br/><br/>
                 <input type="submit" value="Send"/>
             </form>
         </div>

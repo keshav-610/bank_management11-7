@@ -125,7 +125,7 @@
                     %>
                     <div class="delete-section">
                         <form action="admin_delete_user" method="post">
-                            <input type="hidden" name="user_acc_no" value="<%= user_acc_no %>"/>
+                            <input type="hidden" name="user_acc_no" autocomplete="off" value="<%= user_acc_no %>"/>
                             <input type="submit" value="Delete Account"/>
                         </form>
                     </div>

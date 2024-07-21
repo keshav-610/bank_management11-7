@@ -181,22 +181,22 @@
     <form action="admin_add_new_user" method="post">
         <div>
             <label for="name">Name</label>
-            <input type="text" id="name" name="name" placeholder="Enter your name" required/><br>
+            <input type="text" id="name" name="name" placeholder="Enter your name" autocomplete="off" required/><br>
         </div>
 
         <div>
             <label for="address">Address</label>
-            <input type="text" id="address" name="address" placeholder="Enter your address" required/><br>
+            <input type="text" id="address" name="address" placeholder="Enter your address" autocomplete="off" required/><br>
         </div>
 
         <div>
             <label for="phone">Phone Number</label>
-            <input type="text" id="phone" name="phone" placeholder="Enter your phone number" required/>
+            <input type="text" id="phone" name="phone" placeholder="Enter your phone number" autocomplete="off" required/>
         </div>
 
         <div>
             <label for="email">E-mail</label>
-            <input type="email" id="email" name="email" placeholder="Enter your email" required/>
+            <input type="email" id="email" name="email" placeholder="Enter your email" autocomplete="off" required/>
         </div>
 
         <div>
@@ -209,22 +209,22 @@
 
         <div>
             <label for="iamount">Initial Amount</label>
-            <input type="text" id="iamount" name="iamount" placeholder="Enter your initial amount" required/>
+            <input type="text" id="iamount" name="iamount" placeholder="Enter your initial amount" autocomplete="off" required/>
         </div>
 
         <div>
             <label for="dob">Date of Birth</label>
-            <input type="date" id="dob" name="dob" required/>
+            <input type="date" id="dob" name="dob" autocomplete="off" required/>
         </div>
 
         <div>
             <label for="id_proof">Id Proof</label>
-            <input type="text" id="id_proof" name="id_proof" placeholder="Enter your AADHAR number" required/>
+            <input type="text" id="id_proof" name="id_proof" placeholder="Enter your AADHAR number" autocomplete="off" required/>
         </div>
 
         <div>
             <label for="password">Password</label>
-            <input type="password" id="password" name="password" placeholder="Enter your password" required/>
+            <input type="password" id="password" name="password" placeholder="Enter your password" autocomplete="off" required/>
         </div>
 
         <input type="submit" value="Register"/>
