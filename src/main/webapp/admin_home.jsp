@@ -66,17 +66,30 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             width: calc(100% - 22px); 
+            font-family: "DM Sans", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 600;
+            font-style: normal;
         }
         
         .container input[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
+            background-color: rgb(0, 0, 0);
+            color: #fff;
             border: none;
             cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s ease;
+            border: 2px solid white;
+            font-size:15px;
+            padding:10px;
+            border-radius:5px;
         }
         
         .container input[type="submit"]:hover {
-            background-color: #45a049;
+            background-color: white;
+            border: 2px solid black;
+            color: black;
+            box-shadow: 0px 5px 0px 0px #000000;
         }
         
         .add_new_user, .edit_delete {
@@ -107,49 +120,35 @@
         }
         
         .edit-delete {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 20px;
-}
-
-.edit-delete .edit,
-.edit-delete .delete {
-    text-align: center; 
-}
-
-.edit-delete button {
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    text-decoration: none; 
-    display: inline-block;
-    transition: background-color 0.3s ease;
-}
-
-.edit-delete button:hover {
-    background-color: #45a049; 
-}
-
-.edit-delete button a {
-    color: white;
-    text-decoration: none; 
-}
-
-.edit-delete button:hover a {
-    color: white;
-}
-        
-        
-        
-        </style>
+    		display: flex;
+    		justify-content: space-around;
+    		margin-top: 20px;
+    		width:100%;
+		}
+		.editanddelete{
+			background-color: rgb(0, 0, 0);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s ease;
+            border: 2px solid white;
+            font-size:15px;
+            padding:10px;
+            border-radius:5px;	
+            text-decoration:none;
+		}
+		.editanddelete:hover{
+			background-color: white;
+            border: 2px solid black;
+            color: black;
+            box-shadow: 0px 5px 0px 0px #000000;
+		}
+</style>
 </head>
 <body>
 <h2>Welcome Admin</h2>
 <%
-    // Retrieve the username from the session
     String username = (String) session.getAttribute("username");
     if (username != null) {
         out.println("Welcome, " + username + "!");
@@ -161,15 +160,33 @@
 <div class="add_new_user">
 <div class="container">
 <h2>Add new user</h2>
+  <% String status = (String) request.getAttribute("status"); %>
+    <% if (status != null) { %>
+        <% if (status.equals("invalid_phone")) { %>
+            <p style="color: red; text-align:center; font-weight:bold;">Invalid phone number. It should be 10 digits long.</p>
+        <% } else if (status.equals("invalid_id_proof")) { %>
+            <p style="color: red; text-align:center; font-weight:bold;">Invalid ID proof. It should be 12 characters long.</p>
+        <% } else if (status.equals("invalid_age")) { %>
+            <p style="color: red; text-align:center; font-weight:bold;">User must be at least 18 years old to create an account.</p>
+        <% } else if (status.equals("initial_balance_error")) { %>
+            <p style="color: red; text-align:center; font-weight:bold;">Initial balance must be greater than 1000.</p>
+        <% } else if (status.equals("success")) { %>
+            <p style="color: green; text-align:center; font-weight:bold;">User added successfully.</p>
+        <% } else if (status.startsWith("exception")) { %>
+            <p style="color: red; text-align:center; font-weight:bold;">An error occurred: <%= status.substring(10) %></p>
+        <% } else { %>
+            <p style="color: red; text-align:center; font-weight:bold;">Failed to add user. Please try again.</p>
+        <% } %>
+    <% } %>
     <form action="admin_add_new_user" method="post">
         <div>
             <label for="name">Name</label>
-            <input type="text" id="name" name="name" placeholder="Enter your name" required/><br><br>
+            <input type="text" id="name" name="name" placeholder="Enter your name" required/><br>
         </div>
 
         <div>
             <label for="address">Address</label>
-            <input type="text" id="address" name="address" placeholder="Enter your address" required/><br><br>
+            <input type="text" id="address" name="address" placeholder="Enter your address" required/><br>
         </div>
 
         <div>
@@ -214,63 +231,61 @@
     </form>
 </div>
 
-
 <div class="edit-delete">
     <div class="edit">
-        <button><a href="admin_edit_customer.jsp">Edit User Details</a></button>
+        <a href="admin_edit_customer.jsp" class="editanddelete">Edit User Details</a>
     </div>
     <div class="delete">
-        <button><a href="admin_delete_customer.jsp">Delete an Account</a></button>
+        <a href="admin_delete_customer.jsp" class="editanddelete">Delete an Account</a>
     </div>
 </div>
-
 
 <h2>List of Users</h2>
 <div class="db-details">
 <form method="post">
 <table>
-	<tr>
-		<th>User ID</th>
-		<th>Name</th>
-		<th>Address</th>
-		<th>Phone Number</th>
-		<th>Email</th>
-		<th>Account Type</th>
-		<th>Date of Birth</th>
-		<th>Account Number</th>
-	</tr>
-	<%
-	try{
-		 Class.forName("com.mysql.cj.jdbc.Driver");
+    <tr>
+        <th>User ID</th>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Phone Number</th>
+        <th>Email</th>
+        <th>Account Type</th>
+        <th>Date of Birth</th>
+        <th>Account Number</th>
+    </tr>
+    <%
+    try {
+         Class.forName("com.mysql.cj.jdbc.Driver");
          Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bank_management", "root", "keshav610");
-         PreparedStatement pst=con.prepareStatement("SELECT user_id, u_name, address, phone_number, email,account_type, date_of_birth, account_number FROM user_details ORDER BY user_id ASC;");
-         ResultSet rs=pst.executeQuery();
+         PreparedStatement pst = con.prepareStatement("SELECT user_id, u_name, address, phone_number, email, account_type, date_of_birth, account_number FROM user_details ORDER BY user_id ASC;");
+         ResultSet rs = pst.executeQuery();
          
-         while(rs.next()){
-        	 %>
-        	 <tr>
-        	 <td><%=rs.getString("user_id") %></td>
-        	 <td><%=rs.getString("u_name") %></td>
-        	 <td><%=rs.getString("address") %></td>
-        	 <td><%=rs.getString("phone_number") %></td>
-        	 <td><%=rs.getString("email") %></td>
-        	 <td><%=rs.getString("account_type") %></td>
-        	 <td><%=rs.getDate("date_of_birth") %></td>
-        	 <td><%=rs.getString("account_number")%></td>
-        	 </tr>
-        	 <% 
-        	 
+         while (rs.next()) {
+             %>
+             <tr>
+             <td><%= rs.getString("user_id") %></td>
+             <td><%= rs.getString("u_name") %></td>
+             <td><%= rs.getString("address") %></td>
+             <td><%= rs.getString("phone_number") %></td>
+             <td><%= rs.getString("email") %></td>
+             <td><%= rs.getString("account_type") %></td>
+             <td><%= rs.getDate("date_of_birth") %></td>
+             <td><%= rs.getString("account_number") %></td>
+             </tr>
+             <% 
          }
          rs.close();
          pst.close();
          con.close();
-	}catch(Exception e){
-		e.printStackTrace();
-	}
-	%>
+         
+    } catch(Exception e) {
+        e.printStackTrace();
+    }
+    %>
 </table>
 </form>
 </div>
-
+</div>
 </body>
 </html>

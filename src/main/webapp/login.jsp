@@ -16,10 +16,10 @@
             font-weight: 500;
             font-style: normal;
             background-color: #f0f0f0;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            flex-direction:column;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
         }
         .navbar {
             width: 100%;
@@ -43,7 +43,6 @@
 
         .navbar h2 a:hover {
             color: rgb(13, 130, 234);
-            
         }
 
         .container {
@@ -88,32 +87,49 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             box-sizing: border-box;
+            autocomplete: off; 
+            font-family: "DM Sans", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 600;
+            font-style: normal;
         }
 
         .container input[type="submit"] {
             background-color: rgb(0, 0, 0);
             color: #fff;
             border: none;
-            border-radius: 5px;
-            padding: 10px;
             cursor: pointer;
             font-weight: bold;
-            transition: background-color 0.3s ease;
+            transition: 0.2s ease;
+            border: 2px solid white;
+            font-size: 15px;
+            padding: 10px;
+            border-radius: 5px;
         }
 
         .container input[type="submit"]:hover {
-            background-color: rgb(66, 70, 68);
+            background-color: white;
+            border: 2px solid black;
+            color: black;
+            box-shadow: 0px 5px 0px 0px #000000;
         }
 
         .container p {
             font-weight: bold;
             text-align: center;
         }
+        a {
+            text-decoration: none;
+            color: grey;
+            transition: 0.2s ease;
+        }
+        a:hover {
+            color: black;
+        }
     </style>
 </head>
 <body>
 <div class="navbar">
-    <h2><a href="customer.jsp">Signup</a></h2>
     <h2>Login</h2>
 </div>
 
@@ -122,26 +138,25 @@
         <h2>Get Account ID</h2>
         <form action="get_account" method="post">
             <label for="phone_number">Phone Number</label>
-            <input type="text" id="phone_number" name="phone_number" required/>
+            <input type="text" id="phone_number" name="phone_number" autocomplete="off" required/>
 
             <label for="password">Password</label>
-            <input type="password" id="password" name="password" required/>
+            <input type="password" id="password" name="password" autocomplete="off" required/>
 
             <input type="submit" value="Get"/>
         </form>
         <% 
             String accountNumber = (String) request.getAttribute("account_number");
             String accountPassword = (String) request.getAttribute("account_password");
-            String status=(String) request.getAttribute("status");
+            String status = (String) request.getAttribute("status");
             if (accountNumber != null && accountPassword != null && "success".equals(status)) {
-            	out.println("<p>Account Number: "+accountNumber+"</p>");
-            	out.println("<p>Account Password: "+accountPassword+"</p>");            
+                out.println("<p>Account Number: " + accountNumber + "</p>");
+                out.println("<p>Account Password: " + accountPassword + "</p>");            
             }
-            else if("failed".equals(status)){
-            	out.println("<p style='text-align:center;color:red;font-weight:bold;'>Invalid input, please try again.</p>");
+            else if ("failed".equals(status)) {
+                out.println("<p style='text-align:center;color:red;font-weight:bold;'>Invalid input, please try again.</p>");
             }         	
-            	%>
-        
+        %>
     </section>
 
     <section>
@@ -149,20 +164,22 @@
         <form action="login" method="post">
             <label for="account_number">Enter Account Number</label>
             <input
-                    type="text"
-                    id="account_number"
-                    name="account_number"
-                    placeholder="Enter your Account Number"
-                    required
+                type="text"
+                id="account_number"
+                name="account_number"
+                placeholder="Enter your Account Number"
+                autocomplete="off"
+                required
             />
 
             <label for="account_password">Enter your Account Password</label>
             <input
-                    type="password"
-                    id="account_password"
-                    name="account_password"
-                    placeholder="Enter your Account password"
-                    required
+                type="password"
+                id="account_password"
+                name="account_password"
+                placeholder="Enter your Account password"
+                autocomplete="off"
+                required
             />
 
             <input type="submit" value="Login" name="signin"/>
@@ -174,6 +191,7 @@
             <p style="color: red;"><%= loginError %></p>
         <% } %>
     </section>
+    <a href="reset_password.jsp">Forgot Password</a>
 </div>
 </body>
 </html>

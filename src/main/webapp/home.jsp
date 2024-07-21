@@ -86,13 +86,22 @@
             width: 300px;
         }
         input[type="submit"] {
-            background-color: #000000;
-            color: white;
+            background-color: rgb(0, 0, 0);
+            color: #fff;
             border: none;
             cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s ease;
+            border: 2px solid white;
+            font-size:15px;
+            padding:10px;
+            border-radius:5px;
         }
         input[type="submit"]:hover {
-            background-color:  #6f7470;
+            background-color: white;
+            border: 2px solid black;
+            color: black;
+            box-shadow: 0px 5px 0px 0px #000000;  
         }
         .error-message {
             color: red;
@@ -120,13 +129,24 @@
             width: 48%;
         }
         button{
-        	width:300px;
-        	padding:10px;
-        	background-color: #000000;
-            color: white;
-            border-radius:5px;
+        	background-color: rgb(0, 0, 0);
+            color: #fff;
             border: none;
             cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s ease;
+            border: 2px solid white;
+            font-size:15px;
+            padding:10px;
+            border-radius:5px;
+            width:300px;
+        }
+        button:hover{
+        	background-color: white;
+            border: 2px solid black;
+            color: black;
+            box-shadow: 0px 5px 0px 0px #000000;
+        
         }
         .transaction-history{
         	display:flex;

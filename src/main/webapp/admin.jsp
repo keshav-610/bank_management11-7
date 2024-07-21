@@ -6,7 +6,10 @@
     <title>Admin Login</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+			font-family: "DM Sans", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 600;
+            font-style: normal;
             background-color: #f0f2f5;
             margin: 0;
             padding: 20px;
@@ -41,6 +44,10 @@
         .container input[type="text"],
         .container input[type="password"],
         .container input[type="submit"] {
+        	font-family: "DM Sans", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 600;
+            font-style: normal;
             padding: 10px;
             margin-bottom: 10px; 
             border: 1px solid #ccc;
@@ -49,19 +56,29 @@
         }
         
         .container input[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
+            background-color: rgb(0, 0, 0);
+            color: #fff;
             border: none;
             cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s ease;
+            border: 2px solid white;
+            font-size:15px;
+            padding:10px;
+            border-radius:5px;
+            width:100%;
         }
         
         .container input[type="submit"]:hover {
-            background-color: #45a049;
+            background-color: white;
+            border: 2px solid black;
+            color: black;
+            box-shadow: 0px 5px 0px 0px #000000;
         }
         
         .error-message {
             color: red;
-            margin-top: 10px; /* Added margin-top for spacing */
+            margin-top: 10px; 
         }
     </style>
 </head>
@@ -72,9 +89,9 @@
     <div class="container">
         <form action="admin_login" method="post">
             <label>Username</label>
-            <input type="text" name="admin_username"><br><br>
+            <input type="text" name="admin_username" autocomplete="off"><br>
             <label>Password</label>
-            <input type="password" name="admin_password"/><br><br>
+            <input type="password" name="admin_password" autocomplete="off"/><br><br>
             <input type="submit" value="Login"/>
         </form>
     </div>

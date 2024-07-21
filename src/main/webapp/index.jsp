@@ -97,7 +97,7 @@ a:hover{
                 <h4>For the people's future</h4>
             </div>
             <div class="buttons">
-             <a href="customer.jsp">Customer</a>
+             <a href="login.jsp">Customer</a>
             <a href="admin.jsp">Admin</a>
             </div>
         </div>

@@ -23,14 +23,28 @@ public class transaction_servlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
        
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        long t_money = Long.parseLong(request.getParameter("t_amount"));
+        String t_money_str = request.getParameter("t_money"); 
         String ph_no = request.getParameter("receiver_phone_number");
         String account_password = request.getParameter("account_password");
+        
+        if (t_money_str == null || t_money_str.isEmpty() || ph_no == null || ph_no.isEmpty() || account_password == null || account_password.isEmpty()) {
+            request.setAttribute("status", "missing_parameters");
+            request.getRequestDispatcher("home.jsp").forward(request, response);
+            return;
+        }
+        
+        long t_money;
+        try {
+            t_money = Long.parseLong(t_money_str);
+        } catch (NumberFormatException e) {
+            request.setAttribute("status", "invalid_amount");
+            request.getRequestDispatcher("home.jsp").forward(request, response);
+            return;
+        }
+        
         HttpSession session = request.getSession();
-        
-        String username=(String)session.getAttribute("u_name");
+        String username = (String) session.getAttribute("u_name");
         String account_number = (String) session.getAttribute("account_number");
-        
         
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -45,7 +59,6 @@ public class transaction_servlet extends HttpServlet {
             pst_r.setString(2, ph_no);
             
             Timestamp currentTimestamp = new Timestamp(new Date().getTime());
-            
             
             PreparedStatement pst_t = con.prepareStatement(
                     "INSERT INTO transactions (account_number, user_name, amount, transaction_type, status, receiver_phone_number, transaction_date) VALUES (?, ?, ?, ?, ?, ?, ?);"
@@ -63,11 +76,9 @@ public class transaction_servlet extends HttpServlet {
             int rowsupdated_r = pst_r.executeUpdate(); 
             int rowsinserted_t = pst_t.executeUpdate();
             
-            if (rowsupdated_s > 0 && rowsupdated_r > 0 && rowsinserted_t>0) {
-                // Update successful
+            if (rowsupdated_s > 0 && rowsupdated_r > 0 && rowsinserted_t > 0) {
                 response.sendRedirect("home.jsp");
             } else {
-                // No rows updated, handle as per your application's logic
                 request.setAttribute("status", "failed");
                 request.getRequestDispatcher("home.jsp").forward(request, response);
             }
@@ -85,4 +96,5 @@ public class transaction_servlet extends HttpServlet {
             throw new ServletException("JDBC Driver not found", e);
         }
     }
+
 }

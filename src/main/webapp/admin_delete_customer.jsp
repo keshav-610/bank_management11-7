@@ -25,9 +25,9 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 80%; /* Adjusted width */
+            width: 80%;
             margin: 0 auto;
-            max-width: 600px; /* Maximum width to ensure it doesn't get too wide */
+            max-width: 600px;
         }
         form label {
             display: block;
@@ -41,7 +41,7 @@
             border-radius: 5px;
         }
         form input[type="submit"] {
-            background-color: #f44336; /* Red color */
+            background-color: #f44336;
             color: white;
             border: none;
             padding: 10px 20px;
@@ -49,7 +49,7 @@
             cursor: pointer;
         }
         form input[type="submit"]:hover {
-            background-color: #ff6659; /* Darker red on hover */
+            background-color: #ff6659; 
         }
         table {
             width: 100%;
@@ -65,10 +65,10 @@
             background-color: #f2f2f2;
             color: #333;
         }
-        .delete-section{
-        display:flex;
-        justify-content:center;
-        width:100%
+        .delete-section {
+            display: flex;
+            justify-content: center;
+            width: 100%;
         }
     </style>
 </head>
@@ -76,7 +76,7 @@
     <h2>Delete a User Account</h2>
     <form class="get-account" action="" method="post">
         <label>Enter the Account Number:</label>
-        <input type="text" name="user_acc_no" required/>
+        <input type="text" name="user_acc_no" autocomplete="off" required/>
         <input type="submit" value="Get"/>
     </form>
 
@@ -101,6 +101,7 @@
                         <th>Account Type</th>
                         <th>Date of Birth</th>
                         <th>Account Number</th>
+                        <th>Balance</th>
                     </tr>
                     <tr>
                         <td><%= rs.getString("user_id") %></td>
@@ -111,16 +112,27 @@
                         <td><%= rs.getString("account_type") %></td>
                         <td><%= rs.getDate("date_of_birth") %></td>
                         <td><%= rs.getString("account_number") %></td>
+                        <td><%= rs.getInt("initial_balance") %></td>
                     </tr>
                 </table><br>
-                <div class="delete-section">
-                <form action="admin_delete_user" method="post">
-                    <input type="hidden" name="user_acc_no" value="<%= user_acc_no %>"/>
-                    <input type="submit" value="Delete Account"/>
-                </form></div>
                 <%
+                int balance = rs.getInt("initial_balance");
+                if (balance > 0) {
+                    %>
+                    <p style="color: red; text-align: center; width:100%; font-weight:bold;">Please withdraw all the money before deleting the account.</p>
+                    <%
+                } else {
+                    %>
+                    <div class="delete-section">
+                        <form action="admin_delete_user" method="post">
+                            <input type="hidden" name="user_acc_no" value="<%= user_acc_no %>"/>
+                            <input type="submit" value="Delete Account"/>
+                        </form>
+                    </div>
+                    <%
+                }
             } else {
-                out.println("<br>No account found with the provided account number.");
+                out.println("<p style='text-align:center; font-weight:bold;'>No account found with the provided account number.</p>");
             }
             rs.close();
             pst.close();

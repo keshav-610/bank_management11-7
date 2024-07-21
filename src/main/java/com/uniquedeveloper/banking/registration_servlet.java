@@ -12,7 +12,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.mindrot.jbcrypt.BCrypt;
 
 @WebServlet("/register")
 public class registration_servlet extends HttpServlet {
@@ -28,7 +27,7 @@ public class registration_servlet extends HttpServlet {
         String date_of_birth = request.getParameter("dob");
         String proof = request.getParameter("id_proof");
         String password = request.getParameter("password");
-        
+
         String account_number = generateAccountNumber();
         String account_password = generateAccountPassword();
 
@@ -54,6 +53,7 @@ public class registration_servlet extends HttpServlet {
         }
 
         try {
+
             Class.forName("com.mysql.cj.jdbc.Driver");
             con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/bank_management", "root", "keshav610");
 
@@ -68,7 +68,7 @@ public class registration_servlet extends HttpServlet {
             pst.setDouble(6, initial_balance);
             pst.setString(7, date_of_birth);
             pst.setString(8, proof);
-            pst.setString(9, password); // This password is already hashed
+            pst.setString(9, password);
             pst.setString(10, account_number);
             pst.setString(11, account_password);
 
