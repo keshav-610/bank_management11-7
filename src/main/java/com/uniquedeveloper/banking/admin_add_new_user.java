@@ -131,7 +131,8 @@ public class admin_add_new_user extends HttpServlet {
         }
     }
 
-    private boolean isAgeValid(Date dob) {
+    @SuppressWarnings("deprecation")
+	private boolean isAgeValid(Date dob) {
         long ageInMillis = System.currentTimeMillis() - dob.getTime();
         Date age = new Date(ageInMillis);
         return age.getYear() - 70 >= 18; 
