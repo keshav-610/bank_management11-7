@@ -225,9 +225,10 @@
             }
         %>
         <div class="side-header">
-            <p>Time: <span id="current-time"></span></p>
-            <a class="logout-button" href="logout">Logout</a>
-        </div>
+    <p>Time: <span id="current-time"></span></p>
+    <a class="logout-button" href="logout">Logout</a>
+</div>
+
     </div>
     
     <div class="form-container">
