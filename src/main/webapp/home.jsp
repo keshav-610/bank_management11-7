@@ -346,8 +346,6 @@
             </tbody>
         </table><br>
         <button onclick="generatePDF()">Generate PDF</button>
-    </div>
-    
-    
+    </div>  
 </body>
 </html>
