@@ -1,25 +1,25 @@
 package com.uniquedeveloper.banking;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Properties;
 import java.util.Random;
-
+import javax.mail.*;
+import javax.mail.internet.*;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import org.mindrot.jbcrypt.BCrypt;
 
-/**
- * Servlet implementation class admin_add_new_user
- */
 @WebServlet("/admin_add_new_user")
 public class admin_add_new_user extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -33,7 +33,6 @@ public class admin_add_new_user extends HttpServlet {
         double initial_balance = Double.parseDouble(request.getParameter("iamount"));
         String date_of_birth = request.getParameter("dob");
         String proof = request.getParameter("id_proof");
-        String password = request.getParameter("password");
 
         RequestDispatcher dispatcher = null;
 
@@ -76,7 +75,10 @@ public class admin_add_new_user extends HttpServlet {
         }
 
         String account_number = generate_account_number();
-        String account_password = generate_account_password();
+        String temporary_password = generate_account_password();
+
+        String fixedSalt = "$2a$10$eImiTXuWVxfM37uY4JANjQ";
+        String hashed_password = BCrypt.hashpw(temporary_password, fixedSalt);
 
         Connection con1 = null;
         PreparedStatement pst = null;
@@ -85,7 +87,7 @@ public class admin_add_new_user extends HttpServlet {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/bank_management", "root", "keshav610");
 
-            String sql = "INSERT INTO user_details (u_name, address, phone_number, email, account_type, initial_balance, date_of_birth, proof, password, account_number, account_password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO user_details (u_name, address, phone_number, email, account_type, initial_balance, date_of_birth, proof, password, account_number) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             pst = con1.prepareStatement(sql);
 
             pst.setString(1, u_name);
@@ -96,14 +98,15 @@ public class admin_add_new_user extends HttpServlet {
             pst.setDouble(6, initial_balance);
             pst.setString(7, date_of_birth);
             pst.setString(8, proof);
-            pst.setString(9, password);
+            pst.setString(9, hashed_password);
             pst.setString(10, account_number);
-            pst.setString(11, account_password);
 
             int rowcount = pst.executeUpdate();
             dispatcher = request.getRequestDispatcher("admin_home.jsp");
             if (rowcount > 0) {
                 request.setAttribute("status", "success");
+
+                sendEmail(email, account_number, temporary_password);
             } else {
                 request.setAttribute("status", "failed");
             }
@@ -131,11 +134,10 @@ public class admin_add_new_user extends HttpServlet {
         }
     }
 
-    @SuppressWarnings("deprecation")
-	private boolean isAgeValid(Date dob) {
+    private boolean isAgeValid(Date dob) {
         long ageInMillis = System.currentTimeMillis() - dob.getTime();
         Date age = new Date(ageInMillis);
-        return age.getYear() - 70 >= 18; 
+        return age.getYear() - 70 >= 18;
     }
 
     private String generate_account_number() {
@@ -144,5 +146,43 @@ public class admin_add_new_user extends HttpServlet {
 
     private String generate_account_password() {
         return String.valueOf(new Random().nextInt(999999));
+    }
+
+    private void sendEmail(String toAddress, String accountNumber, String accountPassword) {
+        final String username = "kesavaprakash1610@gmail.com";
+        final String password = "duyu mpdi lxuj myvk";
+        final String smtpHost = "smtp.gmail.com";
+        final String smtpPort = "587";
+
+        Properties properties = new Properties();
+        properties.put("mail.smtp.host", smtpHost);
+        properties.put("mail.smtp.port", smtpPort);
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+
+        Session session = Session.getInstance(properties, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(username));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toAddress));
+            message.setSubject("Your Account Details");
+            message.setText("Dear User,\n\n" +
+                            "Your account has been successfully created.\n\n" +
+                            "Account Number: " + accountNumber + "\n" +
+                            "Temporary Password: " + accountPassword + "\n\n" +
+                            "Please change your password after your first login.\n\n" +
+                            "Thank you for banking with us.\n\n" +
+                            "Best Regards,\nBank Management");
+
+            Transport.send(message);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -35,6 +35,9 @@
         .form-group label {
             display: block;
             margin-bottom: 5px;
+            font-family: "DM Sans", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 600;
         }
         .form-group input {
             width: 100%;
@@ -44,17 +47,26 @@
             border-radius: 5px;
         }
         button {
-            width: 100%;
-            padding: 10px;
-            background-color: #28a745;
-            border: none;
+        	font-family: "DM Sans", sans-serif;
+            font-optical-sizing: auto;
+            font-style: normal;
+            background-color: rgb(0, 0, 0);
             color: #fff;
-            font-size: 16px;
-            border-radius: 5px;
+            border: none;
             cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s ease;
+            border: 2px solid white;
+            font-size:15px;
+            padding:10px;
+            width:300px;
+            border-radius:5px;
         }
         button:hover {
-            background-color: #218838;
+            background-color: white;
+            border: 2px solid black;
+            color: black;
+            box-shadow: 0px 5px 0px 0px #000000;
         }
     </style>
 </head>

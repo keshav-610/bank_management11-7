@@ -234,8 +234,8 @@
         <div class="form balance-section">
             <h2>Balance Check</h2>
             <form action="balance" method="post">
-                <label>Check your Balance</label>
-                <input type="password" placeholder="Enter your Account Password" autocomplete="off" name="account_password"/>
+                <label>Check your Balance</label><br>
+                <input type="password" placeholder="Enter your Account Password" autocomplete="off" name="account_password"/><br>
                 <input type="submit" value="View Balance"/>
             </form>
             <%
@@ -262,7 +262,7 @@
                 String depositErrorMessage = (String) request.getAttribute("depositErrorMessage");
                 if (depositErrorMessage != null) {
             %>
-            <p class="error-message"><%= depositErrorMessage %></p>
+            <p style="color:red; text-align:center; font-weight:bold;"><%= depositErrorMessage %></p>
             <% } %>
         </div>
     </div>
@@ -272,22 +272,29 @@
             <h2>Withdraw Money</h2>
             <form action ="withdraw_money" method="post">
                 <label>Enter the amount you want to withdraw</label><br/>
-                <input type="text" name="w_money" autocomplete="off"/><br/><br/>
+                <input type="text" name="w_money" autocomplete="off"/><br/>
                 <label>Enter your Account Password</label><br/>
-                <input type="password" name="account_password" autocomplete="off"/><br/><br/>
+                <input type="password" name="account_password" autocomplete="off"/><br/>
                 <input type="submit" value="Withdraw"/>
             </form>
+             <% 
+            String errorMessage = request.getParameter("error");
+            if (errorMessage != null) {
+        %>
+            <p style="color: red; text-align: center; font-weight:bold;"><%= errorMessage %></p>
+        <% } %>
         </div>
+       
         
         <div class="form transaction-section">
             <h2>Transaction</h2>
             <form action="transaction" method="post">
                 <label>Enter Receiver's Phone Number</label><br/>
-                <input type="text" name="receiver_phone_number" autocomplete="off"/><br/><br/>
+                <input type="text" name="receiver_phone_number" autocomplete="off"/><br/>
                 <label>Enter the Amount</label><br/>
-                <input type="text" name="t_money" autocomplete="off"/><br/><br/>
+                <input type="text" name="t_money" autocomplete="off"/><br/>
                 <label>Enter your Account Password</label><br/>
-                <input type="password" name="account_password" autocomplete="off"/><br/><br/>
+                <input type="password" name="account_password" autocomplete="off"/><br/>
                 <input type="submit" value="Send"/>
             </form>
         </div>

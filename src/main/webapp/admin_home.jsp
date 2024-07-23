@@ -221,12 +221,7 @@
             <label for="id_proof">Id Proof</label>
             <input type="text" id="id_proof" name="id_proof" placeholder="Enter your AADHAR number" autocomplete="off" required/>
         </div>
-
-        <div>
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" placeholder="Enter your password" autocomplete="off" required/>
-        </div>
-
+        
         <input type="submit" value="Register"/>
     </form>
 </div>

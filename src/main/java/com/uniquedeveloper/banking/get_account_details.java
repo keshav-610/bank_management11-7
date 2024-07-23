@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 /**
  * Servlet implementation class get_account_details
  */
@@ -28,18 +30,24 @@ public class get_account_details extends HttpServlet {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bank_management", "root", "keshav610");
-            PreparedStatement pst = con.prepareStatement("SELECT account_number, account_password FROM user_details WHERE phone_number = ? AND password = ?");
+            PreparedStatement pst = con.prepareStatement("SELECT account_number, account_password, password FROM user_details WHERE phone_number = ?");
 
             pst.setString(1, phoneNumber);
-            pst.setString(2, password);
 
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
                 String account_number = rs.getString("account_number");
                 String account_password = rs.getString("account_password");
-                request.setAttribute("account_number", account_number);
-                request.setAttribute("account_password", account_password);
-                request.setAttribute("status", "success");
+                String hashedPassword = rs.getString("password");
+
+                if (BCrypt.checkpw(password, hashedPassword)) {
+                    request.setAttribute("account_number", account_number);
+                    request.setAttribute("account_password", account_password);
+                    request.setAttribute("status", "success");
+                } else {
+                    request.setAttribute("status", "failed");
+                }
+
                 dispatcher = request.getRequestDispatcher("login.jsp");
             } else {
                 request.setAttribute("status", "failed");

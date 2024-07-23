@@ -1,9 +1,15 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.sql.Connection" %>
+<%@ page import="java.sql.DriverManager" %>
+<%@ page import="java.sql.PreparedStatement" %>
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="org.mindrot.jbcrypt.BCrypt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Login Page</title>
+    <title>Set New Pin</title>
     <link rel="icon" type="image/x-icon" href="img/logo.png"/>
 
     <style>
@@ -58,12 +64,7 @@
             margin: 0 auto;
         }
 
-        .container section {
-            width: 100%;
-            margin-bottom: 20px;
-        }
-
-        .container section h2 {
+        .container h2 {
             text-align: center;
             color: black;
             margin-bottom: 20px;
@@ -87,7 +88,6 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             box-sizing: border-box;
-            autocomplete: off; 
             font-family: "DM Sans", sans-serif;
             font-optical-sizing: auto;
             font-weight: 600;
@@ -118,59 +118,86 @@
             font-weight: bold;
             text-align: center;
         }
+
+        .container .error {
+            color: red;
+            font-weight: bold;
+            text-align: center;
+        }
+        
         a {
             text-decoration: none;
             color: grey;
             transition: 0.2s ease;
         }
+
         a:hover {
             color: black;
         }
     </style>
 </head>
 <body>
-<div class="navbar">
-    <h2>Login</h2>
-</div>
+    <div class="navbar">
+        <h2>Set New Pin</h2>
+    </div>
 
-<div class="container">
-
-    <section>
-        <h2>Account Login</h2>
-        <form action="login" method="post">
-            <label for="email">Enter Email</label>
-            <input
-                type="text"
-                id="email"
-                name="email"
-                placeholder="Enter your Email"
-                autocomplete="off"
-                required
-            />
-
-            <label for="account_password">Enter your Account Password</label>
-            <input
-                type="password"
-                id="account_password"
-                name="account_password"
-                placeholder="Enter your Account password"
-                autocomplete="off"
-                required
-            />
-
-            <input type="submit" value="Login" name="signin"/>
+    <div class="container">
+        <h2>Temporary Password Validation</h2>
+        <form method="post" action="">
+            <label>Enter Your Account Number</label>
+            <input type="text" name="account_number" placeholder="Enter your account number" autocomplete="off" required/><br>
+            
+            <label>Enter Your Temporary Password</label>
+            <input type="password" name="temp_password" placeholder="Enter your temporary password" autocomplete="off" required/><br>
+            
+            <input type="submit" value="Validate"/>
         </form>
+        
         <% 
-            String loginError = (String) request.getAttribute("loginError");
-            if (loginError != null) {
+            String account_number = request.getParameter("account_number");
+            String temp_password = request.getParameter("temp_password");
+            if (account_number != null && temp_password != null) {
+                try {
+                    Class.forName("com.mysql.cj.jdbc.Driver");
+                    Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bank_management", "root", "keshav610");
+                    
+                    PreparedStatement pst = con.prepareStatement("SELECT password FROM user_details WHERE account_number = ?");
+                    pst.setString(1, account_number);
+                    ResultSet rs = pst.executeQuery();
+                    
+                    if (rs.next()) {
+                        String stored_hash = rs.getString("password");
+                        if (stored_hash != null && BCrypt.checkpw(temp_password, stored_hash)) {
+                            %>
+                            <form action="set_new_pin" method="post">
+                                <h2>Set a New Pin</h2>
+                                <label>New Pin</label>
+                                <input type="password" name="pin_password" placeholder="Enter new pin" required/>
+                                <input type="hidden" name="account_number" value="<%= account_number %>"/>
+                                <input type="submit" value="Set Pin"/>        
+                            </form>
+                            <%
+                        } else {
+                            %>
+                            <p class="error">Temporary password is incorrect.</p>
+                            <%
+                        }
+                    } else {
+                        %>
+                        <p class="error">Account number not found.</p>
+                        <%
+                    }
+                    
+                    con.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                %>
+                <p class="error">Please enter both account number and temporary password.</p>
+                <%
+            }
         %>
-            <p style="color: red;"><%= loginError %></p>
-        <% } %>
-    </section>
-    <a href="reset_password.jsp">Forgot Password</a>
-</div>
-<br><br>
-
-<a href="set_new_pin.jsp">Set New Pin</a>
+    </div>
 </body>
 </html>

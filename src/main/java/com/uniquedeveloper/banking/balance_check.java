@@ -14,9 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/**
- * Servlet implementation class balance_check
- */
+import org.mindrot.jbcrypt.BCrypt;
+
 @WebServlet("/balance")
 public class balance_check extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -25,33 +24,46 @@ public class balance_check extends HttpServlet {
         String account_password = request.getParameter("account_password");
         HttpSession session = request.getSession();
         RequestDispatcher dispatcher = null;
-        
+
+        Connection con = null;
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bank_management", "root", "keshav610");
-            PreparedStatement pst = con.prepareStatement("SELECT initial_balance FROM user_details WHERE account_password = ?");
-            pst.setString(1, account_password);
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bank_management", "root", "keshav610");
+            pst = con.prepareStatement("SELECT initial_balance, account_password FROM user_details WHERE account_number = ?");
+            pst.setString(1, (String) session.getAttribute("account_number"));
 
-            ResultSet rs = pst.executeQuery();
+            rs = pst.executeQuery();
             if (rs.next()) {
-                String initial_balance = rs.getString("initial_balance");
-                request.setAttribute("initial_balance", initial_balance);
-                request.setAttribute("status", "success");
+                String dbHashedPassword = rs.getString("account_password");            
+                if (BCrypt.checkpw(account_password, dbHashedPassword)) {
+                    String initial_balance = rs.getString("initial_balance");
+                    request.setAttribute("initial_balance", initial_balance);
+                    request.setAttribute("status", "success");
+                } else {
+                    request.setAttribute("status", "failed");
+                }
                 dispatcher = request.getRequestDispatcher("home.jsp");
             } else {
                 request.setAttribute("status", "failed");
                 dispatcher = request.getRequestDispatcher("home.jsp");
             }
-            
-            rs.close();
-            pst.close();
-            con.close();
-            
+
         } catch (Exception e) {
             e.printStackTrace();
             throw new ServletException("Database access error", e);
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pst != null) pst.close();
+                if (con != null) con.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        
+
         dispatcher.forward(request, response);
     }
 }
