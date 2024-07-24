@@ -44,7 +44,6 @@ public class set_new_pin_servlet extends HttpServlet {
                     request.setAttribute("message", "Failed to update PIN. Please try again.");
                 }
             } else if (tempPassword != null && !tempPassword.isEmpty() && accountNumber != null && !accountNumber.isEmpty()) {
-                // Handle temporary password verification
                 String sql = "SELECT password FROM user_details WHERE account_number = ?";
                 pst = con.prepareStatement(sql);
                 pst.setString(1, accountNumber);
