@@ -167,7 +167,7 @@
             <p style="color: red;"><%= loginError %></p>
         <% } %>
     </section>
-    <a href="reset_password.jsp">Forgot Password</a>
+    <a href="forgot_password.jsp">Forgot Password</a>
 </div>
 <br><br>
 

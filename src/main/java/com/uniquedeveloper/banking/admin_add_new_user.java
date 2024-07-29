@@ -173,11 +173,11 @@ public class admin_add_new_user extends HttpServlet {
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toAddress));
             message.setSubject("Your Account Details");
             message.setText("Dear User,\n\n" +
-                            "Your account has been successfully created.\n\n" +
+                            "Your account has been successfully registered.\n\n" +
                             "Account Number: " + accountNumber + "\n" +
                             "Temporary Password: " + accountPassword + "\n\n" +
-                            "Please change your password after your first login.\n\n" +
-                            "Thank you for banking with us.\n\n" +
+                            "Please don't enter your temporary password for login purpose."+"\n"+
+                            "Please activate your account by setting new pin,\n\n" +
                             "Best Regards,\nBank Management");
 
             Transport.send(message);
